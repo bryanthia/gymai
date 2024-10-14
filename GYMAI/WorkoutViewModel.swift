@@ -6,12 +6,37 @@
 //
 
 import Foundation
+import SwiftUI
 
 class WorkoutViewModel: ObservableObject {
-    @Published var muscleGroups = [
-        MuscleGroup(name: "Shoulders", isToggled: true, exercises: ["Dumbbell Press", "Dumbbell Lateral Raise", "Cable Lateral Raise"]),
-        MuscleGroup(name: "Chest", isToggled: true, exercises: ["Bench Press", "Incline Bench Press", "Chest Fly"]),
-        MuscleGroup(name: "Triceps", isToggled: true, exercises: ["Straight Bar Pulldown", "Dumbbell Skullcrushers", "Overhead Cable Extensions"]),
+    @Published var muscleGroups: [MuscleGroup] = [
+        MuscleGroup(
+            name: "Shoulders",
+            isToggled: true,
+            exercises: [
+                Exercise(name: "Dumbbell Press"),
+                Exercise(name: "Dumbbell Lateral Raise"),
+                Exercise(name: "Cable Lateral Raise")
+            ]
+        ),
+        MuscleGroup(
+            name: "Chest",
+            isToggled: true,
+            exercises: [
+                Exercise(name: "Bench Press"),
+                Exercise(name: "Incline Bench Press"),
+                Exercise(name: "Chest Fly")
+            ]
+        ),
+        MuscleGroup(
+            name: "Triceps",
+            isToggled: true,
+            exercises: [
+                Exercise(name: "Straight Bar Pulldown"),
+                Exercise(name: "Dumbbell Skullcrushers"),
+                Exercise(name: "Overhead Cable Extensions")
+            ]
+        ),
         MuscleGroup(name: "Back", isToggled: false),
         MuscleGroup(name: "Biceps", isToggled: false),
         MuscleGroup(name: "Legs", isToggled: false),
@@ -19,7 +44,4 @@ class WorkoutViewModel: ObservableObject {
     ]
     @Published var selectedGroups: [MuscleGroup] = []
     
-    func fetchSelectedMuscleGroups() -> [MuscleGroup] {
-        return muscleGroups.filter{$0.isToggled == true}
-    }
 }
