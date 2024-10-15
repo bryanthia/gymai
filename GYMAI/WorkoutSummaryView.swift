@@ -16,28 +16,49 @@ struct WorkoutSummaryView: View {
                 .font(.title)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             List{
-                ForEach($viewModel.muscleGroups) {$muscleGroup in
+                ForEach(viewModel.muscleGroups) {muscleGroup in
                     if muscleGroup.isToggled == true {
                         Section(header: Text(muscleGroup.name)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)){
-                                ForEach($muscleGroup.exercises) {$exercise in
+                                ForEach(muscleGroup.exercises) {exercise in
                                     VStack {
                                         HStack {
                                             Text(exercise.name)
                                                 .onTapGesture {
-                                                    exercise.isExpanded.toggle()
+                                                    viewModel.toggleExpanded(muscleGroup: muscleGroup, exercise: exercise)
                                                 }
                                             Spacer()
                                             
-                                            Toggle(isOn: $exercise.isDone,
-                                                   label: {Text("")}
-                                            )
-                                            .toggleStyle(CustomCheckboxToggleStyle())
+                                            exercise.isDone ? Image(systemName: "checkmark")
+                                                .resizable() // Makes the image resizable
+                                                .frame(width: 15, height: 15) // Set the desired size
+                                                .foregroundColor(.green)
+
+                                            : Image(systemName: "xmark")
+                                                .resizable()
+                                                .frame(width: 15, height: 15) // Set the desired size
+                                                .foregroundColor(.red)
+
                                         }
                                         if exercise.isExpanded {
-                                            ForEach(exercise.sets) { oneSet in
-                                                Text("Weight: \(String(oneSet.weight)) kg")
-                                                    .padding(.leading)
+                                            VStack (alignment: .leading) {
+                                                ForEach(exercise.sets) { oneSet in
+                                                    HStack {
+                                                        Text(String(format: "Weight: %.1fkg", oneSet.weight))
+                                                            .font(.caption)
+                                                        Spacer()
+                                                        // $ only works if oneSet is an observable object and isDone is published within that
+                                                        Toggle(isOn: Binding(get: {
+                                                            oneSet.isDone
+                                                        }, set: { newValue in
+                                                            viewModel.setDone(isDone: newValue)
+                                                        }),
+                                                               label: {Text("")}
+                                                        )
+                                                        .toggleStyle(CustomCheckboxToggleStyle())
+
+                                                    }
+                                                }
                                             }
                                         }
                                     }

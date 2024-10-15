@@ -43,5 +43,23 @@ class WorkoutViewModel: ObservableObject {
         MuscleGroup(name: "Abs", isToggled: false)
     ]
     @Published var selectedGroups: [MuscleGroup] = []
-    
+
+    func toggleExpanded(muscleGroup: MuscleGroup, exercise: Exercise) {
+        // For musclegroups, match according to the musclegrou param
+        // same for exercise within the muscle group
+        // CHALLENGE: CHange to a guard
+        if let index = muscleGroups.firstIndex(where: { $0.id == muscleGroup.id }) {
+            if let exerciseIndex = muscleGroups[index].exercises.firstIndex(where: { $0.id == exercise.id }) {
+                muscleGroups[index].exercises[exerciseIndex].isExpanded.toggle()
+            }
+        }
+
+
+
+    }
+
+    func setDone(isDone: Bool) {
+        
+    }
+
 }

@@ -8,14 +8,15 @@
 import Foundation
 
 struct MuscleGroup: Identifiable {
-    let id = UUID()
+    let id = UUID().uuidString
     let name: String
     var isToggled: Bool
     var exercises: [Exercise] = [Exercise(name: "Placeholder")]
 }
 
+// option 1: make this a class (not advisable)
 struct Exercise: Identifiable {
-    let id = UUID()
+    let id = UUID().uuidString
     let name: String
     var isDone: Bool = false
     var isExpanded: Bool = false
@@ -27,7 +28,7 @@ struct Exercise: Identifiable {
 }
 
 struct Set: Identifiable {
-    let id = UUID()
+    let id = UUID().uuidString
     var weight: CGFloat
     var reps: Int
     var isDone: Bool = false
